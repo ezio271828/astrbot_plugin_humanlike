@@ -1,0 +1,24 @@
+name: astrbot_plugin_humanlike
+display_name: 去 AI 味
+short_desc: 让机器人的回复更像真人随手打的字，而不是 AI 生成的。
+desc: |
+  把机器人说话里的“AI 味”去掉。三层手段，各自独立开关：
+
+  - **提示词层**：给模型注入一套“聊天风格”硬规则（短句、口语、不要总分总、不要结尾套话）
+  - **后处理层**：回复发出前做规则清洗，砍掉“当然可以/希望对你有所帮助”这类套话，
+    去掉 Markdown 和破折号，书面连接词换口语，长段落可以自动拆成几条短消息
+  - **重写层**（可选）：把回复再交给模型改写成口语，多一次请求，延迟和费用会上升
+
+  内置 [SEPIA](https://github.com/Nanako0129/sepia) v0.12.4 技能包（MIT，原样引入，见 NOTICE.md）：
+  同一套规则拆成两层——`skills/` 供 Agent 在你明确要求时做高质量改写与诊断，
+  `always_on.md` 作为每轮注入的群聊版规则。升级 SEPIA 只需覆盖目录，不必改代码。
+
+  自带 `/deai status|on|off|test|reload` 调试指令，可以当场预览清洗效果。
+version: 1.2.1
+author: ezio271828
+repo: https://github.com/ezio271828/astrbot_plugin_humanlike
+astrbot_version: ">=4.5.7"
+tags:
+  - 人格
+  - 风格
+  - 提示词

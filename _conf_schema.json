@@ -1,0 +1,185 @@
+{
+  "enabled": {
+    "description": "总开关",
+    "type": "bool",
+    "default": true,
+    "hint": "关掉后插件完全不介入，等同于没装"
+  },
+  "inject_prompt": {
+    "description": "注入风格提示词",
+    "type": "bool",
+    "default": true,
+    "hint": "最有效的一层。在模型生成之前就要求它别像 AI 说话"
+  },
+  "prompt_position": {
+    "description": "提示词注入位置",
+    "type": "string",
+    "default": "system",
+    "options": [
+      "system",
+      "extra"
+    ],
+    "labels": [
+      "system_prompt（推荐）",
+      "额外用户内容块"
+    ],
+    "subtitles": [
+      "稳定内容，不破坏提示词缓存，遵守度最高",
+      "作为额外内容块追加，不改 system_prompt"
+    ],
+    "hint": "风格规则是固定文本，两种都安全，推荐 system"
+  },
+  "extra_prompt": {
+    "description": "自定义风格提示词",
+    "type": "text",
+    "default": "",
+    "hint": "留空则使用内置的 DEFAULT_PROMPT（见 deai_rules.py）"
+  },
+  "style_source": {
+    "description": "常驻风格规则来源",
+    "type": "string",
+    "default": "file",
+    "options": [
+      "file",
+      "skill",
+      "internal"
+    ],
+    "labels": [
+      "always_on.md 文件（推荐）",
+      "读取 skills/<名字>/SKILL.md",
+      "内置 DEFAULT_PROMPT"
+    ],
+    "subtitles": [
+      "从 SEPIA 规则提取的群聊版，可自行编辑",
+      "直接读整个 Skill；太长且含 Agent 指令，不推荐",
+      "不依赖外部文件，最省事"
+    ],
+    "hint": "推荐 file：always_on.md 是按 SEPIA 依据写的群聊版，和 skills/sepia 的原文分工不同"
+  },
+  "always_on_file": {
+    "description": "常驻规则文件",
+    "type": "string",
+    "default": "always_on.md",
+    "hint": "相对插件目录的路径；frontmatter 会被剥离，不会注入。换成你自己的规则文件也可以"
+  },
+  "skill_name": {
+    "description": "Skill 目录名",
+    "type": "string",
+    "default": "deai-writing",
+    "hint": "对应插件目录下 skills/&lt;名字&gt;/SKILL.md。换成你自己的 skill 名字即可"
+  },
+  "skill_max_chars": {
+    "description": "注入字数上限",
+    "type": "int",
+    "default": 1500,
+    "slider": {
+      "min": 0,
+      "max": 6000,
+      "step": 100
+    },
+    "hint": "每轮都注入，太长会明显增加 token 消耗。0 表示不截断"
+  },
+  "clean_markdown": {
+    "description": "清洗 Markdown",
+    "type": "bool",
+    "default": true,
+    "hint": "去掉 # 标题、**加粗**、列表符号、代码反引号、分隔线等聊天窗口里不该出现的东西"
+  },
+  "strip_openings": {
+    "description": "砍掉开头套话",
+    "type": "bool",
+    "default": true,
+    "hint": "例如“当然可以！”“好的，我来帮你分析一下这个问题。”"
+  },
+  "strip_closings": {
+    "description": "砍掉结尾套话",
+    "type": "bool",
+    "default": true,
+    "hint": "例如“希望对你有所帮助”“如有疑问随时提问”"
+  },
+  "replace_words": {
+    "description": "书面词换口语",
+    "type": "bool",
+    "default": true,
+    "hint": "首先/其次/因此/此外/综上所述 → 然后/所以/另外/反正；非常→挺；由于→因为"
+  },
+  "strip_emoji": {
+    "description": "删除 emoji",
+    "type": "bool",
+    "default": false,
+    "hint": "emoji 多不一定是坏事，按你的人格设定决定"
+  },
+  "protect_quotes": {
+    "description": "保护引文/代码/链接",
+    "type": "bool",
+    "default": true,
+    "hint": "引号内的话、行内代码、URL、版本号、文件名一律原样。关掉会误改引用内容，不建议"
+  },
+  "strip_dash": {
+    "description": "把破折号换成逗号",
+    "type": "bool",
+    "default": false,
+    "hint": "默认关闭。破折号不是模型无关的 AI 特征（SEPIA style-pass §7 实测各版本差异极大），无条件替换属于过度矫正。只有你确认自己的人设不用破折号时才开"
+  },
+  "custom_replace": {
+    "description": "自定义替换规则",
+    "type": "list",
+    "default": [],
+    "hint": "每项写成“原词=>新词”，例如 进行=>做。按字面替换，不支持正则"
+  },
+  "rewrite_enabled": {
+    "description": "开启二次重写",
+    "type": "bool",
+    "default": false,
+    "hint": "把回复再交给模型改写成口语。效果最好，但每条回复多一次请求，延迟和费用明显上升"
+  },
+  "rewrite_prompt": {
+    "description": "重写提示词",
+    "type": "text",
+    "default": "",
+    "hint": "留空使用内置提示词"
+  },
+  "split_replies": {
+    "description": "长回复拆成多条",
+    "type": "bool",
+    "default": false,
+    "hint": "模拟人连发好几条短消息。只对纯文本回复生效，且仅在开启后才拆"
+  },
+  "split_max_len": {
+    "description": "单条最大字数",
+    "type": "int",
+    "default": 60,
+    "slider": {
+      "min": 20,
+      "max": 200,
+      "step": 10
+    }
+  },
+  "split_max_parts": {
+    "description": "最多拆几条",
+    "type": "int",
+    "default": 3,
+    "slider": {
+      "min": 1,
+      "max": 5,
+      "step": 1
+    }
+  },
+  "split_delay": {
+    "description": "拆分后每条间隔（秒）",
+    "type": "float",
+    "default": 1.0,
+    "slider": {
+      "min": 0,
+      "max": 3,
+      "step": 0.2
+    },
+    "hint": "实际会乘以 0.6~1.4 的随机数，别设太大"
+  },
+  "log_ai_score": {
+    "description": "日志记录 AI 味判断",
+    "type": "bool",
+    "default": false,
+    "hint": "每条回复在日志里打印 AI味=True/False 和清洗前后字数，调规则时用"
+  }
+}
