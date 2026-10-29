@@ -14,7 +14,7 @@ desc: |
   `always_on.md` 作为每轮注入的群聊版规则。升级 SEPIA 只需覆盖目录，不必改代码。
 
   自带 `/deai status|on|off|test|reload` 调试指令，可以当场预览清洗效果。
-version: 1.2.1
+version: 1.2.2
 author: ezio271828
 repo: https://github.com/ezio271828/astrbot_plugin_humanlike
 astrbot_version: ">=4.5.7"
