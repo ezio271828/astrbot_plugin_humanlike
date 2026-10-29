@@ -20,6 +20,15 @@ git clone https://github.com/ezio271828/astrbot_plugin_humanlike
 # 或者直接把整个目录复制进去
 ```
 
+WebUI 里「插件 → 安装」填上面的仓库地址即可。如果走 HTTP API 安装，注意 AstrBot 4.29.1 的
+`download_url` 需要**归档 zip 地址**而不是仓库页面，否则会报「插件压缩包格式错误」：
+
+```bash
+POST /api/v1/plugins/install/url
+{"url": "https://github.com/ezio271828/astrbot_plugin_humanlike",
+ "download_url": "https://github.com/ezio271828/astrbot_plugin_humanlike/archive/refs/heads/main.zip"}
+```
+
 启动 AstrBot → WebUI「插件」页找到 **去 AI 味** → 需要配置就去插件配置页改。
 改代码后点插件卡片上的刷新图标热重载，不用重启。
 
